@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getDatabase, ref, onValue } from 'firebase/database';
 import { app } from '../firebase';
 
 function VoterDash() {
   const [upcomingElections, setUpcomingElections] = useState([]);
   const navigate = useNavigate();
+  const {voterId} = useParams();
 
   useEffect(() => {
     const db = getDatabase(app);
@@ -25,7 +26,7 @@ function VoterDash() {
   }, []);
 
   const handleElectionClick = (electionKey) => {
-    navigate(`/election-page/${electionKey}`);
+    navigate(`/election-page/${electionKey}/${voterId}`);
   };
 
   return (

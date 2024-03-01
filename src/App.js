@@ -14,12 +14,12 @@ function App() {
       <div className="App">
         <Routes>
           <Route exact path="/" element={<LogIn />} />
-          <Route path="/voter-dashboard" element={<VoterDash />} />
+          <Route path="/voter-dashboard/:voterId" element={<VoterDash />} />
           <Route path="/admin-dashboard" element={<AdminDash />} />
           <Route path="/election-page" element={<ElectionPage />} />
           <Route path="/add-new-voter" element={<AddNewVoter />} />
           <Route path="/add-new-election" element={<AddNewElection />} />
-          <Route path="/election-page/:electionId" element={<ElectionPage/>} />
+          <Route path="/election-page/:electionId/:voterId" element={<ElectionPage/>} />
         </Routes>
       </div>
     </Router>

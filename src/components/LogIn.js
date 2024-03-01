@@ -20,7 +20,7 @@ function LogIn() {
       const data = snapshot.val();
       if (data && data.hasOwnProperty(voterId) ) {
         setIsValidVoter(true);
-        navigate('/voter-dashboard')
+        navigate(`/voter-dashboard/${voterId}`);
       } else {
         setIsValidVoter(false);
       }

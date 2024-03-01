@@ -93,7 +93,8 @@ function AddNewElection() {
       name: electionName,
       startTime: startTime,
       endTime: endTime,
-      candidates: candidates
+      candidates: candidates,
+      voted:""
     };
 
     push(electionRef, electionData)
