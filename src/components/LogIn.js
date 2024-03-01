@@ -32,7 +32,7 @@ function LogIn() {
 
     // Validate email format
     if (!emailRegex.test(adminEmail)) {
-      console.error('Invalid email format is here');
+      console.error('Invalid email format');
       return;
     }
 
