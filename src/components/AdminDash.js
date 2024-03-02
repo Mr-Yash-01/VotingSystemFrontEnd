@@ -7,20 +7,37 @@ function AdminDash() {
   const [elections, setElections] = useState([]);
 
   useEffect(() => {
-    const db = getDatabase(app);
-    const electionsRef = ref(db, 'Elections');
-    
-    // Fetch elections data from Firebase Realtime Database
-    onValue(electionsRef, (snapshot) => {
-      const data = snapshot.val();
-      delete data['safe']
-      if (data) {
-        const electionsArray = Object.values(data);
-        setElections(electionsArray);
-      } else {
-        setElections([]);
-      }
-    });
+    // Function to fetch elections data and update the state
+    const fetchElections = () => {
+      const db = getDatabase(app);
+      const electionsRef = ref(db, 'Elections');
+      
+      // Fetch elections data from Firebase Realtime Database
+      onValue(electionsRef, (snapshot) => {
+        const data = snapshot.val();
+        delete data['safe']
+        if (data) {
+          const currentTime = new Date();
+          const electionsArray = Object.entries(data).filter(([key, value]) => {
+            const endTime = new Date(value.endTime);
+            // Check if the election end time has not passed
+            return endTime > currentTime;
+          }).map(([key, value]) => value);
+          setElections(electionsArray);
+        } else {
+          setElections([]);
+        }
+      });
+    };
+
+    // Initial fetch
+    fetchElections();
+
+    // Set up interval to periodically check for updates
+    const interval = setInterval(fetchElections, 500); // Update every 500ms
+
+    // Cleanup function to clear interval on unmount
+    return () => clearInterval(interval);
   }, []);
 
   return (
