@@ -57,7 +57,7 @@ function LogIn() {
           <h2>Voter Login</h2>
           <input
             type="text"
-            placeholder="Enter Voter ID"
+            placeholder="Enter  Voter ID"
             value={voterId}
             onChange={(e) => setVoterId(e.target.value)}
           />
