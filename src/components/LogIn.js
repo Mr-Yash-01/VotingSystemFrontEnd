@@ -3,6 +3,8 @@ import { getDatabase, onValue, ref } from 'firebase/database';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { app } from '../firebase';
 import { useNavigate } from 'react-router-dom';
+// import { ethers } from 'ethers';
+// import contract  from "./Lock.json";
 
 function LogIn() {
   const [voterId, setVoterId] = useState('');
@@ -12,14 +14,38 @@ function LogIn() {
   const [isValidAdmin, setIsValidAdmin] = useState(false);
   const navigate = useNavigate();
 
+  // const {ethereum} = window;
+
+  // const contractAddress = '0x9FD4d8278ce89C6331b1a9a007b967F904D590C9';
+  // const infuraProvider = new ethers.JsonRpcProvider(
+  //   'https://sepolia.infura.io/v3/cdf2a29bbe4a45218e91aaaa2aa87b9a'
+  // );
+
+  // const walletProvider = new ethers.JsonRpcProvider(ethereum);
+
+  // const getContractData = new ethers.Contract(
+  //   contractAddress,
+  //   contract.abi,
+  //   infuraProvider
+  // );
+
+  // const sendContract = new ethers.Contract(
+  //   contractAddress,
+  //   contract.abi,
+  //   walletProvider
+  // )
+
   const handleCheckVoterId = () => {
     const db = getDatabase(app);
     const votersRef = ref(db, 'voters');
 
-    onValue(votersRef, (snapshot) => {
+    onValue(votersRef, async (snapshot) => {
       const data = snapshot.val();
       if (data && data.hasOwnProperty(voterId) ) {
         setIsValidVoter(true);
+        // const temp = await getContractData.greet();
+        // console.log(temp);
+        // console.log(contract.abi);
         navigate(`/voter-dashboard/${voterId}`);
       } else {
         setIsValidVoter(false);
