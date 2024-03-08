@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getDatabase, ref,update, onValue,runTransaction } from 'firebase/database';
+import { getDatabase, ref,update, onValue } from 'firebase/database';
 import { app } from '../firebase';
+import { sendContract } from './sharedVariables';
 
 function ElectionPage() {
-  const { electionId, voterId } = useParams();
+  const { electionId, voterId,electionName } = useParams();
   const [candidates, setCandidates] = useState([]);
   const [votedCandidates, setVotedCandidates] = useState([]);
-
+  console.log(electionId,voterId,electionName);
   useEffect(() => {
     const db = getDatabase(app);
     const votedRef = ref(db, `Elections/${electionId}/voted`);
@@ -38,56 +39,40 @@ function ElectionPage() {
     });
   }, [electionId]);
 
-  const handleVote = (candidateId, voterId) => {
-    // Get a reference to the candidate's vote count
-    const db = getDatabase(app);
-    const candidateRef = ref(db, `Elections/${electionId}/candidates/${candidateId}/votes`);
+  const handleVote = async (candidate) => {
+    console.log(electionName, candidate);
+    try {
+      const sendData = await sendContract.vote(electionName, candidate);
+      await sendContract.waitForDeployment();
+      // Get a reference to the candidate's vote count
+      const db = getDatabase(app);
+      const electionVoterRef = ref(db, `Elections/${electionId}/voted`);
+      // Run a transaction to safely update the vote count
+      await update(electionVoterRef, {
+        [voterId]: sendData.hash // Assuming you want to set it to the transaction hash
+      });
+      console.log('Uploaded');
+    } catch (error) {
+      console.error('Error handling vote:', error);
+    }
+  };
+  
 
-    // Run a transaction to safely update the vote count
-    runTransaction(candidateRef, (currentVotes) => {
-        // If the currentVotes is null, it means no votes have been cast yet
-        // Set it to 1 as the initial vote
-        if (currentVotes === null) {
-            return 1;
-        } else {
-            // Increment the current vote count by 1
-            return currentVotes + 1;
-        }
-    })
-    .then(() => {
-        console.log('Vote counted successfully');
-        // Add the voterId under the electionId with its value
-        const electionVoterRef = ref(db, `Elections/${electionId}/voted`);
-        console.log(voterId);
-        return update(electionVoterRef, {
-            [voterId]: "" // Assuming you want to set it to true
-        });
-    })
-    .catch((error) => {
-        console.error('Error updating vote count:', error);
-    });
-};
-
-
-
-
-
-  return (
-    <div className="ElectionPage">
-      <h2>Election Page</h2>
-      <div className="candidates-grid">
-        {Object.entries(candidates).map(([candidateId, candidate]) => (
-          <div key={candidateId} className="candidate-card">
-            <p>Name: {candidate.firstName} {candidate.lastName}</p>
-            <p>Party: {candidate.party}</p>
-            <button onClick={() => handleVote(candidateId,voterId)} disabled={votedCandidates.includes(voterId)}>
-              Vote
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+return (
+  <div className="ElectionPage">
+    <h2>Election Page</h2>
+    <div className="candidates-grid">
+      {Object.entries(candidates).map(([candidateId, candidate]) => (
+        <div key={candidateId} className="candidate-card">
+          <p>Name: {candidate} </p>
+          <button onClick={() => handleVote(candidate)} disabled={votedCandidates.includes(voterId)}>
+            Vote
+          </button>
+        </div>
+      ))}
+    </div>    
+  </div>
+);
 }
 
 export default ElectionPage;

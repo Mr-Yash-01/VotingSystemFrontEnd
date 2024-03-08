@@ -7,6 +7,7 @@ import AdminDash from './components/AdminDash';
 import ElectionPage from './components/ElectionPage';
 import AddNewVoter from './components/AddNewVoter';
 import AddNewElection from './components/AddNewElection';
+import ElectionResultsPage from './components/ElectionResults';
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
           <Route path="/election-page" element={<ElectionPage />} />
           <Route path="/add-new-voter" element={<AddNewVoter />} />
           <Route path="/add-new-election" element={<AddNewElection />} />
-          <Route path="/election-page/:electionId/:voterId" element={<ElectionPage/>} />
+          <Route path="/election-results/:electionName" element={<ElectionResultsPage />} />
+          <Route path="/election-page/:electionId/:voterId/:electionName" element={<ElectionPage/>} />
         </Routes>
       </div>
     </Router>

@@ -17,12 +17,7 @@ function AdminDash() {
         const data = snapshot.val();
         delete data['safe']
         if (data) {
-          const currentTime = new Date();
-          const electionsArray = Object.entries(data).filter(([key, value]) => {
-            const endTime = new Date(value.endTime);
-            // Check if the election end time has not passed
-            return endTime > currentTime;
-          }).map(([key, value]) => value);
+          const electionsArray = Object.entries(data)
           setElections(electionsArray);
         } else {
           setElections([]);
@@ -49,23 +44,72 @@ function AdminDash() {
       <div style={{ marginTop: '20px' }}>
         <h3 style={{ fontSize: '20px', fontWeight: 'bold' }}>Running Elections</h3>
         <div className="elections-grid">
-          {elections.map((election, index) => (
-            <div key={index} className="election-card">
-              <h4 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>{election.name}</h4>
-              <p>Start Time: {election.startTime}</p>
-              <p>End Time: {election.endTime}</p>
+        {elections.map(([index,election]) => (
+          <div key={index} className="election-card" style={{display: (new Date(election.startTime) > new Date() || (new Date(election.endTime) < new Date() )? 'none' : 'block'),cursor: 'pointer', pointerEvents: 'auto', opacity: 1}}>
+          <h4 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>{election.name}</h4>
+          <p>Start Time: {election.startTime}</p>
+          <p>End Time: {election.endTime}</p>
 
-              <h4 style={{ marginTop: '20px', fontSize: '16px', fontWeight: 'bold' }}>Candidates</h4>
-              <div className="candidates-grid">
-                {election.candidates && election.candidates.map((candidate, idx) => (
-                  <div key={idx} className="candidate-card">
-                    <p>Name: {candidate.firstName} {candidate.lastName}</p>
-                    <p>Party: {candidate.party}</p>
-                  </div>
-                ))}
+          <h4 style={{ marginTop: '20px', fontSize: '16px', fontWeight: 'bold' }}>Candidates</h4>
+          <div className="candidates-grid">
+            {election.candidates && election.candidates.map((candidate, idx) => ( 
+
+              <div key={idx} className="candidate-card" >
+                <p>Name: {candidate} </p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+))}
+
+        </div>
+      </div>
+      
+      <div style={{ marginTop: '20px' }}>
+        <h3 style={{ fontSize: '20px', fontWeight: 'bold' }}>Upcoming Elections</h3>
+        <div className="elections-grid">
+        {elections.map(([index,election]) => (
+          <div key={index} className="election-card" style={{display: (new Date(election.startTime) < new Date() ? 'none' : 'block'),cursor: 'pointer', pointerEvents: 'auto', opacity: 1}}>
+          <h4 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>{election.name}</h4>
+          <p>Start Time: {election.startTime}</p>
+          <p>End Time: {election.endTime}</p>
+
+          <h4 style={{ marginTop: '20px', fontSize: '16px', fontWeight: 'bold' }}>Candidates</h4>
+          <div className="candidates-grid">
+            {election.candidates && election.candidates.map((candidate, idx) => ( 
+
+              <div key={idx} className="candidate-card">
+                <p>Name: {candidate} </p>
+              </div>
+            ))}
+          </div>
+        </div>
+))}
+
+        </div>
+      </div>
+      
+      <div style={{ marginTop: '20px' }}>
+        <h3 style={{ fontSize: '20px', fontWeight: 'bold' }}>Ended Elections</h3>
+        <div className="elections-grid">
+        {elections.map(([key,election]) => (
+          <div key={key} className="election-card" style={{display: (new Date(election.endTime) > new Date() ? 'none' : 'block'),cursor: 'pointer', pointerEvents: 'auto', opacity: 1}}>
+          <h4 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>{election.name}</h4>
+          <p>Start Time: {election.startTime}</p>
+          <p>End Time: {election.endTime}</p>
+
+          <h4 style={{ marginTop: '20px', fontSize: '16px', fontWeight: 'bold' }}>Candidates</h4>
+          <div className="candidates-grid">
+            {election.candidates && election.candidates.map((candidate, idx) => ( 
+
+              <div key={idx} className="candidate-card">
+                <p>Name: {candidate} </p>
+              </div>
+            ))}
+          </div>
+        </div>
+))}
+
         </div>
       </div>
     </div>
