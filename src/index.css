@@ -1,13 +1,586 @@
+/* Import Google Sans font */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans&display=swap');
+
+/* Apply styles to the entire page */
+.App,
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Google Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #F0F4F9;
+   /* Apply background color to the entire page */
+}
+.Apps{
+  overflow: hidden;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Style the login container */
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Adjust as needed */
+}
+
+/* Style the login boxes */
+.voter-login,
+.admin-login {
+  width: 300px;
+  height: 300px;
+  padding: 30px;
+  padding-right: 50px; /* Add padding from the right side */
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  margin: 30px;
+  background-color: white;
+  margin-top: -50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.voter-login:hover,
+.admin-login:hover {
+  transform: scale(1.028); /* Scale the box slightly on hover */
+}
+
+
+.invalid-input {
+  border: 1px solid red;
+}
+
+.error-message {
+  color: red;
+}
+
+/* Style the text inside the login boxes */
+.voter-login h2
+{  font-size: 18px; /* Maintain font size */
+   margin-top: -35px; /*Adjust margin to move text slightly up */
+}
+.voter-login input, .voter-login label{
+  margin-top: 28px;
+}
+/* Style the vertical line */
+.vertical-line {
+  height: 475px;
+  width: 1px;
+  background-color: #ccc; /* Adjust color as needed */
+  margin: 0 20px; /* Adjust margin as needed */
+}
+
+.myvoterid{
+  margin-right: 232px;
+} 
+
+
+/* Style the oval input fields */
+.voter-login input,
+.admin-login input {
+  border-radius: 20px;
+  border-color: black; /* Adjust border radius and color as needed */
+  padding: 10px; /* Adjust padding as needed */
+  width: 100%; /* Take up full width */
+  margin-bottom: 10px; /* Add space between input fields */
+}
+
+/* Align text on the left-hand side */
+.input-group label {
+  text-align: left;
+  display: block;
+  margin-bottom: 10px; /* Adjust margin as needed */
+}
+
+/* Style the oval-shaped login button */
+.login-button,
+.small-login-button {
+  border-radius: 20px; /* Make the button oval-shaped */
+  background-color: #1a63da; /* Set the background color to blue */
+  color: white; /* Set the text color to white */
+  border: none; /* Remove the border */
+  padding: 10px 20px; /* Add padding for better spacing */
+  width: 150px;
+  cursor: pointer; /* Add cursor pointer */
+  outline: none; /* Remove default outline */
+  margin: 0 auto;
+}
+
+/* Add hover effect to the login button */
+.login-button:hover,
+.small-login-button:hover {
+  background-color: #0E4EB5; /* Reduce opacity on hover for visual feedback */
+}
+
+/* Style the text inside the login boxes */
+.voter-login h2,
+.admin-login h2,
+.input-group label,
+.login-button,
+.small-login-button {
+  font-size: 18px; /* Increase font size as needed */
+}
+
+/* Add padding between input fields and buttons */
+.input-group input[type="text"],
+.input-group input[type="email"],
+.input-group input[type="password"],
+.login-button,
+.small-login-button {
+
+  margin-bottom: 15px; /* Adjust margin as needed */
+}
+.input-group input[type="text"]{
+  margin-top: -200px;
+  margin-bottom: 2000px;
+}
+
+
+/* Apply styles to the entire page */
+/* Apply styles to the entire page */
+.AdminDash {
+  margin: 20px;
+  font-family: 'Google Sans', sans-serif;
+}
+
+/* Style the Add New Voter and Add New Election buttons */
+.AdminDash button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  background-color: #1a63da;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+}
+
+.AdminDash button:hover {
+  background-color: #0e4eb5;
+}
+
+/* Style the containers for running, ended, and upcoming elections */
+.elections-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.elections-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style the headers for each section */
+.elections-header {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Style the grid layout for election cards */
+.elections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Style the election card */
+.election-card {
+  padding: 20px;
+  border-radius: 35px;
+  background-color: white;
+  border: 1px solid #ccc;
+  margin-bottom: 30px;
+  margin-right: 12px;
+  margin-left: 12px;
+}
+
+/* Style the candidate card */
+.candidate-card {
+  margin-top: 10px;
+}
+
+/* Style the link to add new voter and election */
+.AdminDash a {
+  text-decoration: none;
+  color: #F0F4F9;
+}
+
+/* Differentiate running elections */
+.running-elections {
+  background-color: #f0f2f5; /* Light */
+}
+
+/* Differentiate upcoming elections */
+.upcoming-elections {
+  background-color: #f0f2f5; /* Light  */
+}
+
+/* Differentiate ended elections */
+
+.AddNewElectionBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+/* Style the form inside the AddNewElectionBox */
+.AddNewElectionBox form {
+  width: 400px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 30px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style the input fields */
+.AddNewElectionBox input {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+}
+
+/* Style the buttons */
+.AddNewElectionBox button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 20px;
+  width: 220px;
+  height: 40px;
+  margin: 0 auto;
+  background-color: #1a63da;
+  color: #fff;
+  cursor: pointer;
+}
+
+.AddNewElectionBox button:hover {
+  background-color: #0e4eb5;
+}
+
+/* Style the candidate input section */
+.candidate-input {
+  display: flex;
+  align-items: center;
+}
+
+.candidate-input label {
+  margin-right: 10px;
+}
+
+/* Style the candidate tiles */
+.candidate-tiles {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.candidate-tile {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f0f2f5; /* Light grey background */
+  transition: transform 0.3s ease; /* Add transition effect */
+}
+
+.candidate-tile:hover {
+  transform: translateY(-5px); /* Move tile up on hover */
+}
+
+/* Style the buttons in the candidate tile */
+.candidate-buttons button {
+  margin-top: 10px;
+  margin-right: 10px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #000000;
+  color: white;
+  cursor: pointer;
+}
+
+/* Style the buttons on hover */
+.candidate-buttons button:hover {
+  background-color: #0e4eb5;
+}
+
+
+
+/* VOTER DASHBOARD CSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS */
+
+/* Style the sections */
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.search-bar {
+  width: 300px; /* Adjust width as needed */
+  height: 40px;
+  border-radius: 20px; /* Make it oval */
+  padding: 10px;
+  font-size: 16px;
+}
+
+.running-elections {
+  background-color: #f0f2f5; /* Light green */
+}
+
+.upcoming-elections {
+  background-color: #f0f2f5; /* Light blue */
+}
+
+.ended-elections {
+  background-color: #f0f2f5; /* Light red */
+}
+
+/* Style the election card */
+.election-card {
+  padding: 20px;
+  border-radius: 35px;
+  background-color: white;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.election-card:hover {
+  transform: scale(1.05); /* Increase size on hover */
+}
+
+/* Style the headings for each section */
+h3 {
+  margin-bottom: 10px;
+}
+.no-election-message-container {
+  text-align: center; /* Center-align the content */
+}
+
+.no-election-message {
+  grid-column: 2 / span 1;
+  display: flex;
+  justify-content: center; /* Horizontally center the content */
+  margin-top: 20px;
+  margin-left: 200px;
+  padding: 10px 20px;
+  border: 1.6px solid #000000;
+  background-color: white;
+  border-radius: 2px;
+  width: calc(100% - 40px); /* Subtracting padding and border widths */
+}
+
+
+
+
+
+
+
+
+
+/* Style the titles inside the election cards */
+.election-card h4 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Style the details inside the election cards */
+.election-card p {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+
+
+.ElectionResultsPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.square-box {
+  width: 50%; /* Adjust the size as needed */
+  height: 50%; /* Same as width to create a square */
+  background-color: #f0f0f0;
+  padding: 20px;
+  border: solid #000000;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.results-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.results-container .candidate-tile {
+  background-color: #ffffff;
+  padding: 10px;
+  width: 500%;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.tie-tile {
+  width: 500%;
+  font-size: 20px;
+  font-weight: 600;
+  background-color: #d1d7e1;
+  color: rgb(0, 0, 0);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  transition: transform 0.2s ease-in-out;
+}
+.tie-tile:hover{
+  transform: scale(1.09);
+}
+
+.winner-tile {
+  width: 500%;
+  font-size: 20px;
+  font-weight: 600;
+  background-color: #4CAF50;
+  color: rgb(255, 255, 255);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.winner-tile:not(:last-child) {
+  margin-bottom: 0; /* Remove margin if not the last child */
+}
+
+
+.search-bar {
+  position: absolute;
+  border: solid 2px black;
+  top: 20px;
+  right: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.search-bar input {
+  width: 200px;
+  height: 40px;
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-radius: 20px;
+}
+
+.search-bar input:focus {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+.candidates-grid {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;
+  flex-wrap: wrap; /* Allow cards to wrap to the next row */
+}
+
+.candidate-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  width: 300px; /* Increased width */
+  height: 200px; /* Increased height */
+  margin: 20px; /* Add margin between cards */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow */
+  transition: transform 0.3s ease-in-out; /* Transition for hover effect */
+}
+
+.candidate-card p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.candidates-grid .candidate-card button {
+  background-color: #0e4eb5; /* Set the button background color */
+  color: white; /* Set the text color to white for better contrast */
+  border: none; /* Remove the button border */
+  padding: 8px 16px; /* Add padding to the button */
+  border-radius: 4px; /* Add border radius for rounded corners */
+  cursor: pointer; /* Add cursor pointer on hover */
+  transition: background-color 0.3s; /* Add transition effect for smoother color change */
+}
+
+.candidate-card button:hover {
+  background-color: #0c4373; /* Change the button background color on hover */
+}
+
+.candidate-card button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.candidate-card:hover {
+  transform: translateY(-5px); /* Hover effect: Move card up */
+}
+
+.candidate-card button:hover {
+  background-color: rgb(171, 171, 171); /* Hover effect: Darken button background color */
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity as needed */
+  z-index: 999; /* Make sure the overlay appears above other elements */
+}
+
+.confirmation-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  z-index: 1000;
+   /* Make sure the popup appears above the overlay */
+}
+
+/* Additional styles for the confirmation popup */
+.confirmation-popup p {
+  margin-bottom: 10px;
+}
+
+.confirmation-popup button {
+  height: 20px;
+  width: 90px;
+  color: white;
+  margin-right: 10px;
+  background-color: #0e4eb5;
+  cursor: pointer;
+}
+
+.confirmation-popup button:hover{
+  background-color: #1b2d4b;
 }

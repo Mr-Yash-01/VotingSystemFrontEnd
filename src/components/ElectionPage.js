@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getDatabase, ref,update, onValue } from 'firebase/database';
+import { getDatabase, ref, update, onValue } from 'firebase/database';
 import { app } from '../firebase';
 import { sendContract } from './sharedVariables';
 
 function ElectionPage() {
-  const { electionId, voterId,electionName } = useParams();
+  const { electionId, voterId, electionName } = useParams();
   const [candidates, setCandidates] = useState([]);
   const [votedCandidates, setVotedCandidates] = useState([]);
-  console.log(electionId,voterId,electionName);
+  const [selectedCandidate, setSelectedCandidate] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  console.log(electionId, voterId, electionName);
+
   useEffect(() => {
     const db = getDatabase(app);
     const votedRef = ref(db, `Elections/${electionId}/voted`);
@@ -39,10 +42,14 @@ function ElectionPage() {
     });
   }, [electionId]);
 
-  const handleVote = async (candidate) => {
-    console.log(electionName, candidate);
+  const handleVote = (candidate) => {
+    setSelectedCandidate(candidate);
+    setShowConfirmation(true);
+  };
+
+  const confirmVote = async () => {
     try {
-      const sendData = await sendContract.vote(electionName, candidate);
+      const sendData = await sendContract.vote(electionName, selectedCandidate);
       await sendContract.waitForDeployment();
       // Get a reference to the candidate's vote count
       const db = getDatabase(app);
@@ -52,27 +59,41 @@ function ElectionPage() {
         [voterId]: sendData.hash // Assuming you want to set it to the transaction hash
       });
       console.log('Uploaded');
+      setShowConfirmation(false); // Close the confirmation popup after voting
     } catch (error) {
       console.error('Error handling vote:', error);
     }
   };
-  
 
-return (
-  <div className="ElectionPage">
-    <h2>Election Page</h2>
-    <div className="candidates-grid">
-      {Object.entries(candidates).map(([candidateId, candidate]) => (
-        <div key={candidateId} className="candidate-card">
-          <p>Name: {candidate} </p>
-          <button onClick={() => handleVote(candidate)} disabled={votedCandidates.includes(voterId)}>
-            Vote
-          </button>
-        </div>
-      ))}
-    </div>    
-  </div>
-);
+  return (
+    <div className="ElectionPage">
+      <h2>Election Page</h2>
+      <div className="candidates-grid">
+        {Object.entries(candidates).map(([candidateId, candidate]) => (
+          <div key={candidateId} className="candidate-card">
+            <p>Name: {candidate}</p>
+            <button
+              onClick={() => handleVote(candidate)}
+              disabled={votedCandidates.includes(voterId)}
+              style={{ backgroundColor: '#0e4eb5', color: 'white', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer' }}
+            >
+              Vote
+            </button>
+          </div>
+        ))}
+      </div>
+      {showConfirmation && (
+        <>
+          <div className="overlay"></div>
+          <div className="confirmation-popup">
+            <p>Are you sure you want to vote for <strong>{selectedCandidate}?</strong></p>
+            <button onClick={confirmVote}>Vote</button>
+            <button onClick={() => setShowConfirmation(false)}>Cancel</button>
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
 
 export default ElectionPage;

@@ -13,20 +13,23 @@ function ElectionResultsPage() {
         const electionCandidates = electionResult[1];
         const electionVotes = electionResult[2];
 
-        // Combine candidate names and votes into an array of objects
         const candidateVotePairs = electionCandidates.map((candidateName, index) => ({
           name: candidateName,
           votes: electionVotes[index]
         }));
-        console.log(candidateVotePairs[0].votes);
-        // Sort the array based on votes in descending order
+
         candidateVotePairs.sort((a, b) => Number(b.votes.toString()) - Number(a.votes.toString()));
-        
-        // Find the winner (candidate with maximum votes)
+
         const winner = candidateVotePairs[0];
 
-        // Update state with sorted candidateVotePairs and winner
-        setPastElectionResults({ candidateVotePairs, winner });
+        // Check for tie
+        const isTie = candidateVotePairs.every(candidate => candidate.votes === winner.votes);
+
+        if (isTie) {
+          setPastElectionResults({ isTie, candidateVotePairs });
+        } else {
+          setPastElectionResults({ candidateVotePairs, winner });
+        }
       } catch (error) {
         console.error('Error fetching election results:', error);
       }
@@ -38,19 +41,27 @@ function ElectionResultsPage() {
   return (
     <div className="ElectionResultsPage">
       <h2>Election Results for {electionName} elections</h2>
-      <div>
-        {pastElectionResults.candidateVotePairs && pastElectionResults.candidateVotePairs.map((result, index) => (
-          <div key={index} className="election-card">
-            <h3>{result.name}</h3>
-            <p>Votes: {Number(result.votes)}</p>
-          </div>
-        ))}
-        {pastElectionResults.winner && (
-          <div className="winner">
-            <h3>Winner</h3>
-            <p>{pastElectionResults.winner.name}: {pastElectionResults.winner.votes} votes</p>
-          </div>
-        )}
+      <div className="square-box">
+        <div className="results-container">
+          {pastElectionResults.candidateVotePairs && pastElectionResults.candidateVotePairs.map((result, index) => (
+            <div key={index} className="candidate-tile">
+              <p className="candidate-name">{result.name}</p>
+              <p className="votes">Votes: {Number(result.votes)}</p>
+            </div>
+          ))}
+          {pastElectionResults.isTie && (
+            <div className="tie-tile">
+              <p className="tie-label">Tie &#128522;</p>
+            </div>
+          )}
+          {pastElectionResults.winner && !pastElectionResults.isTie && (
+            <div className="winner-tile">
+              <p className="winner-label">&#127881; Winner &#127881;</p>
+              <p className="winner-name">{pastElectionResults.winner.name}</p>
+              <p className="votes">Votes: {Number(pastElectionResults.winner.votes)}</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

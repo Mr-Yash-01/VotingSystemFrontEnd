@@ -3,13 +3,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getDatabase, ref, onValue } from 'firebase/database';
 import { app } from '../firebase';
 
+
+// Import Font Awesome CSS file
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 function VoterDash() {
   const [upcomingElections, setUpcomingElections] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
   const { voterId } = useParams();
 
   useEffect(() => {
-    // Function to fetch upcoming elections data from Firebase Realtime Database
     const fetchUpcomingElections = () => {
       const db = getDatabase(app);
       const electionsRef = ref(db, 'Elections');
@@ -18,7 +22,7 @@ function VoterDash() {
         const data = snapshot.val();
         delete data['safe'];
         if (data) {
-          const upcomingElectionsArray = Object.entries(data)
+          const upcomingElectionsArray = Object.entries(data);
           setUpcomingElections(upcomingElectionsArray);
         } else {
           setUpcomingElections([]);
@@ -26,81 +30,98 @@ function VoterDash() {
       });
     };
 
-    // Initial fetch
     fetchUpcomingElections();
 
-    // Set up interval to periodically check for updates
     const interval = setInterval(fetchUpcomingElections, 1000); // Update every second
 
-    // Cleanup function to clear interval on unmount
     return () => clearInterval(interval);
   }, []);
 
-  const handleElectionClick = (electionKey,electionName) => {
-    // const currentTime = new Date();
-    // if (currentTime < new Date(endTime)) {
-      console.log(electionName);
-      navigate(`/election-page/${electionKey}/${voterId}/${electionName}`);
-    // } else {
-    //   // Print the result
-    //   const db = getDatabase(app);
-    //   const candidatesRef = ref(db, `Elections/${electionKey}/candidates`);
-
-    //   onValue(candidatesRef, (snapshot) => {
-    //     const candidates = snapshot.val();
-    //     if (candidates) {
-    //       console.log("Election Result:");
-    //       Object.entries(candidates).forEach(([candidateId, candidate]) => {
-    //         console.log(`Candidate ${candidateId}: ${candidate.firstName} ${candidate.lastName}, Votes: ${candidate.votes}`);
-    //       });
-    //     }
-    //   });
-    // }
+  const handleElectionClick = (electionKey, electionName) => {
+    navigate(`/election-page/${electionKey}/${voterId}/${electionName}`);
   };
 
   const handleResults = (electionName) => {
     navigate(`/election-results/${electionName}`);
-  }
+  };
+
+  const filteredElections = upcomingElections.filter(([key, value]) =>
+    value.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
 
   return (
     <div className="VoterDash">
-      <h2 style={{ fontSize: '24px', fontWeight: 'bold' }}>Voter Dashboard</h2>
-      
+      <h2 style={{ fontSize: '38px', fontWeight: 'bold', textAlign: 'center' }}>Voter Dashboard</h2>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+        <input
+          type="text"
+          placeholder= " Search election name..."
+                    onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            width: '500px', // Adjust width as needed
+            height: '20px',
+            border: '1px solid',
+            borderRadius: '1220px', // Make it oval
+            padding: '10px',
+            fontSize: '16px',
+          }}
+        />
+      </div>
+
+      {/* Horizontal line above running elections */}
+      <hr style={{ marginTop: '20px', marginBottom: '20px', borderTop: '2px solid #ccc' }} />
+
       <div style={{ marginTop: '20px' }}>
-        <h3 style={{ fontSize: '20px', fontWeight: 'bold' }}>Running Elections</h3>
+        <h3 style={{ fontSize: '26px', fontWeight: 'bold', marginLeft: '27px' }}>Running Elections :</h3>
         <div className="elections-grid">
-          {upcomingElections.map(([key, value]) => (
-            <div key={key} className="election-card" onClick={() => handleElectionClick(key,value.name)} style={{ display: (new Date(value.startTime) > new Date()) || (new Date(value.endTime) < new Date()) ? 'none' : 'block', cursor: 'pointer', pointerEvents: 'auto', opacity: 1 }}>
-              <h4 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px' }}>{value.name}</h4>
-              <p>Start Time: {new Date(value.startTime).toLocaleString()}</p>
-              <p>End Time: {new Date(value.endTime).toLocaleString()}</p>
-            </div>
+          {filteredElections.filter(([key, value]) => new Date(value.startTime) < new Date() && new Date(value.endTime) > new Date()).length === 0 && <p className="no-election-message">No running elections</p>}
+          {filteredElections.map(([key, value]) => (
+            new Date(value.startTime) < new Date() && new Date(value.endTime) > new Date() && (
+              <div key={key} className="election-card running-elections" onClick={() => handleElectionClick(key, value.name)} style={{ display: 'block', cursor: 'pointer', pointerEvents: 'auto', opacity: 1 }}>
+                <h4 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px' }}>{value.name}</h4>
+                <p>Start Time: {new Date(value.startTime).toLocaleString()}</p>
+                <p>End Time: {new Date(value.endTime).toLocaleString()}</p>
+              </div>
+            )
           ))}
         </div>
       </div>
-      
+
+      {/* Horizontal line above no election message */}
+      <hr style={{ marginTop: '20px', marginBottom: '20px', borderTop: '2px solid #ccc' }} />
+
       <div style={{ marginTop: '20px' }}>
-        <h3 style={{ fontSize: '20px', fontWeight: 'bold' }}>Upcoming Elections</h3>
+        <h3 style={{ fontSize: '26px', fontWeight: 'bold',  marginLeft: '27px' }}>Upcoming Elections :</h3>
         <div className="elections-grid">
-          {upcomingElections.map(([key, value]) => (
-            <div key={key} className="election-card"  style={{ display: (new Date(value.startTime) < new Date())  ? 'none' : 'block', cursor: 'pointer', pointerEvents: 'auto', opacity: 1 }}>
-              <h4 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px' }}>{value.name}</h4>
-              <p>Start Time: {new Date(value.startTime).toLocaleString()}</p>
-              <p>End Time: {new Date(value.endTime).toLocaleString()}</p>
-            </div>
+          {filteredElections.filter(([key, value]) => new Date(value.startTime) > new Date()).length === 0 && <p className="no-election-message">No upcoming elections</p>}
+          {filteredElections.map(([key, value]) => (
+            new Date(value.startTime) > new Date() && (
+              <div key={key} className="election-card upcoming-elections" style={{ display: 'block', cursor: 'pointer', pointerEvents: 'auto', opacity: 1 }}>
+                <h4 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px' }}>{value.name}</h4>
+                <p>Start Time: {new Date(value.startTime).toLocaleString()}</p>
+                <p>End Time: {new Date(value.endTime).toLocaleString()}</p>
+              </div>
+            )
           ))}
         </div>
       </div>
-      
+
+      {/* Horizontal line above ended elections */}
+      <hr style={{ marginTop: '20px', marginBottom: '20px', borderTop: '2px solid #ccc' }} />
+
       <div style={{ marginTop: '20px' }}>
-        <h3 style={{ fontSize: '20px', fontWeight: 'bold' }}>Ended Elections</h3>
+        <h3 style={{ fontSize: '26px', fontWeight: 'bold', marginLeft: '27px' }}>Ended Elections :</h3>
         <div className="elections-grid">
-          {upcomingElections.map(([key, value]) => (
-            <div key={key} className="election-card" onClick={() => handleResults(value.name)} style={{ display: (new Date(value.endTime) < new Date())   ? 'block' : 'none', cursor: 'pointer', pointerEvents: 'auto', opacity: 1 }}>
-              <h4 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px' }}>{value.name}</h4>
-              <p>Start Time: {new Date(value.startTime).toLocaleString()}</p>
-              <p>End Time: {new Date(value.endTime).toLocaleString()}</p>
-            </div>
+          {filteredElections.filter(([key, value]) => new Date(value.endTime) < new Date()).length === 0 && <p className="no-election-message">No ended elections</p>}
+          {filteredElections.map(([key, value]) => (
+            new Date(value.endTime) < new Date() && (
+              <div key={key} className="election-card ended-elections" onClick={() => handleResults(value.name)} style={{ display: 'block', cursor: 'pointer', pointerEvents: 'auto', opacity: 1 }}>
+                <h4 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '10px' }}>{value.name}</h4>
+                <p>Start Time: {new Date(value.startTime).toLocaleString()}</p>
+                <p>End Time: {new Date(value.endTime).toLocaleString()}</p>
+              </div>
+            )
           ))}
         </div>
       </div>

@@ -8,11 +8,17 @@ import ElectionPage from './components/ElectionPage';
 import AddNewVoter from './components/AddNewVoter';
 import AddNewElection from './components/AddNewElection';
 import ElectionResultsPage from './components/ElectionResults';
+// import Logout from './components/logout'; // Import the Logout component
+// import { useHistory } from 'react-router-dom';
+
 
 function App() {
   return (
     <Router>
       <div className="App">
+        <div style={{ position: 'absolute', top: 10, right: 10 }}>
+           {/* Include Logout component in the top-right corner */}
+        </div>
         <Routes>
           <Route exact path="/" element={<LogIn />} />
           <Route path="/voter-dashboard/:voterId" element={<VoterDash />} />
@@ -22,6 +28,7 @@ function App() {
           <Route path="/add-new-election" element={<AddNewElection />} />
           <Route path="/election-results/:electionName" element={<ElectionResultsPage />} />
           <Route path="/election-page/:electionId/:voterId/:electionName" element={<ElectionPage/>} />
+          {/* <Route path="/" element={<Logout />} />  */}
         </Routes>
       </div>
     </Router>
