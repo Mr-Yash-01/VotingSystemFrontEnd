@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { getDatabase, ref, push } from 'firebase/database';
 import { app } from '../firebase';
 import { sendContract } from './sharedVariables';
+import { useNavigate } from 'react-router-dom';
 
 function AddNewElection() {
   const [electionName, setElectionName] = useState('');
@@ -11,6 +12,7 @@ function AddNewElection() {
   const [candidateName, setCandidateName] = useState('');
   const [isValidForm, setIsValidForm] = useState(true);
   const [editingIndex, setEditingIndex] = useState(null);
+  const navigate = useNavigate();
 
   // Define handleAddCandidate function
   const handleAddCandidate = () => {
@@ -104,7 +106,9 @@ function AddNewElection() {
 
     await sendContract.addElectionWithCandidates(electionName, electionData.candidates);
     push(electionRef, electionData)
-      .then(() => {})
+      .then(() => {
+        navigate('/admin-dashboard');
+      })
       .catch((error) => {
         console.error('Error uploading election data:', error);
       });
@@ -131,7 +135,7 @@ function AddNewElection() {
             <label>Candidate Name:</label>
             <input type="text" value={candidateName} onChange={handleInputChange} />
             <button type="button" className='addCandidate' onClick={handleAddCandidateClick}>
-              {editingIndex !== null ? 'Update Candidate' : 'Add Candidate'}
+              {editingIndex !== null ? 'Update Candidate' : 'Add'}
             </button>
           </div>
           <button type="submit">Submit</button>
