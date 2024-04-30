@@ -73,12 +73,18 @@ function ElectionPage() {
           <div key={candidateId} className="candidate-card">
             <p>Name: {candidate}</p>
             <button
-              onClick={() => handleVote(candidate)}
-              disabled={votedCandidates.includes(voterId)}
-              style={{ backgroundColor: '#0e4eb5', color: 'white', padding: '8px 16px', borderRadius: '4px', cursor: 'pointer' }}
-            >
-              Vote
-            </button>
+  onClick={() => handleVote(candidate)}
+  disabled={votedCandidates.includes(voterId)}
+  style={{
+    backgroundColor: votedCandidates.includes(voterId) ? '#6c7075' : '#0e4eb5',
+    color: 'white',
+    padding: '8px 16px',
+    borderRadius: '4px',
+    cursor: votedCandidates.includes(voterId) ? 'not-allowed' : 'pointer'
+  }}
+>
+  Vote
+</button>
           </div>
         ))}
       </div>
