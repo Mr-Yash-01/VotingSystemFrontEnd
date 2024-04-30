@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import {  useNavigate, useParams } from 'react-router-dom';
 import { getDatabase, ref, update, onValue } from 'firebase/database';
 import { app } from '../firebase';
 import { sendContract } from './sharedVariables';
@@ -10,7 +10,7 @@ function ElectionPage() {
   const [votedCandidates, setVotedCandidates] = useState([]);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  console.log(electionId, voterId, electionName);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const db = getDatabase(app);
@@ -59,10 +59,12 @@ function ElectionPage() {
         [voterId]: sendData.hash // Assuming you want to set it to the transaction hash
       });
       console.log('Uploaded');
-      setShowConfirmation(false); // Close the confirmation popup after voting
+      setShowConfirmation(false);
+      // Close the confirmation popup after voting
     } catch (error) {
       console.error('Error handling vote:', error);
     }
+    navigate(`/voter-dashboard/${voterId}`);
   };
 
   return (
