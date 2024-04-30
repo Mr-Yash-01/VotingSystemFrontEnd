@@ -135,11 +135,7 @@ function AddNewElection() {
             <label>Candidate</label>
             <input type="text" value={candidateName} onChange={handleInputChange} />
             <button type="button" className='addCandidate' onClick={handleAddCandidateClick}>
-<<<<<<< HEAD
-              {editingIndex !== null ? 'Update Candidate' : 'Add'}
-=======
               {editingIndex !== null ? 'Update ' : 'Add '}
->>>>>>> 1b0abe95f338c5775939a6cf8c408e5c6259f2dd
             </button>
           </div>
           <button type="submit">Submit</button>
