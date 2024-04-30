@@ -44,7 +44,7 @@ function AdminDash() {
       <hr style={{ marginTop: '20px', marginBottom: '20px', borderTop: '2px solid #ccc' }} />
 
       <div style={{ marginTop: '20px' }}>
-        <h3 style={{ fontSize: '26px', fontWeight: 'bold', marginLeft: '27px' }}>Running Elections :</h3>
+        <h3 style={{ fontSize: '26px', fontWeight: 'bold', marginLeft: '27px' }}>Running Elections</h3>
         <div className="elections-grid">
           {elections.filter(([index, election]) => new Date(election.startTime) < new Date() && new Date(election.endTime) > new Date()).length === 0 && <p className="no-election-message">No running elections</p>}
           {elections.map(([index, election]) => (
@@ -63,7 +63,7 @@ function AdminDash() {
       <hr style={{ marginTop: '20px', marginBottom: '20px', borderTop: '2px solid #ccc' }} />
 
       <div style={{ marginTop: '20px' }}>
-        <h3 style={{ fontSize: '26px', fontWeight: 'bold',  marginLeft: '27px' }}>Upcoming Elections :</h3>
+        <h3 style={{ fontSize: '26px', fontWeight: 'bold',  marginLeft: '27px' }}>Upcoming Elections</h3>
         <div className="elections-grid">
           {elections.filter(([index, election]) => new Date(election.startTime) > new Date()).length === 0 && <p className="no-election-message">No upcoming elections</p>}
           {elections.map(([index, election]) => (
@@ -82,7 +82,7 @@ function AdminDash() {
       <hr style={{ marginTop: '20px', marginBottom: '20px', borderTop: '2px solid #ccc' }} />
 
       <div style={{ marginTop: '20px' }}>
-        <h3 style={{ fontSize: '26px', fontWeight: 'bold', marginLeft: '27px' }}>Ended Elections :</h3>
+        <h3 style={{ fontSize: '26px', fontWeight: 'bold', marginLeft: '27px' }}>Ended Elections</h3>
         <div className="elections-grid">
           {elections.filter(([index, election]) => new Date(election.endTime) < new Date()).length === 0 && <p className="no-election-message">No ended elections</p>}
           {elections.map(([index, election]) => (

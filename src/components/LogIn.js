@@ -69,17 +69,18 @@ function LogIn() {
      {showModal && (
         <div className="modal show" onClick={handleOutsideClick}>
           <div className="modal-content">
-            <h2>Welcome to Blockchain Based Voting System</h2>
-            <button onClick={handleCloseModal}>Close</button>
+            <h2>Welcome to Blockchain Based </h2>
+            <h2>Voting System</h2>
           </div>
         </div>
       )}
       <div className="Apps">
-      <div className="title-container">
+      
+        <div className="login-container">
+        <div className="title-container">
         <div className="title">
         <h1>Voter & Admin </h1>
         <h1>Authentication</h1>  </div> </div>
-        <div className="login-container">
           <div className="voter-login">
             <h2>Voter Login</h2>
             <div className="myvoterid">
