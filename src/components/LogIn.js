@@ -15,7 +15,9 @@ function LogIn() {
   const [adminCheckAttempted, setAdminCheckAttempted] = useState(false);
   const [adminLoginError, setAdminLoginError] = useState(false);
   const [voterLoginError, setVoterLoginError] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   const navigate = useNavigate();
+  
 
   const handleCheckVoterId = () => {
     setVoterCheckAttempted(true);
@@ -36,7 +38,9 @@ function LogIn() {
       onlyOnce: true
     });
   };
-
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
   const handleCheckAdminEmail = async () => {
     setAdminCheckAttempted(true);
     const auth = getAuth();
@@ -52,11 +56,29 @@ function LogIn() {
       console.error(error.message);
     }
   };
+  const handleOutsideClick = (event) => {
+    if (event.target === event.currentTarget) {
+      handleCloseModal();
+    }
+  };
+
+  
 
   return (
     <>
+     {showModal && (
+        <div className="modal show" onClick={handleOutsideClick}>
+          <div className="modal-content">
+            <h2>Welcome to Blockchain Based Voting System</h2>
+            <button onClick={handleCloseModal}>Close</button>
+          </div>
+        </div>
+      )}
       <div className="Apps">
-        <h1>Voter and Admin Authentication</h1>
+      <div className="title-container">
+        <div className="title">
+        <h1>Voter & Admin </h1>
+        <h1>Authentication</h1>  </div> </div>
         <div className="login-container">
           <div className="voter-login">
             <h2>Voter Login</h2>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { contractInstance } from './sharedVariables';
+import { useSpring, animated } from 'react-spring';
 
 function ElectionResultsPage() {
   const [pastElectionResults, setPastElectionResults] = useState([]);
@@ -38,6 +39,14 @@ function ElectionResultsPage() {
     fetchPastElectionResults();
   }, [electionName]);
 
+  const winnerAnimation = useSpring({
+    to: { opacity: 1, transform: 'scale(1)' },
+    from: { opacity: 0, transform: 'scale(0.5)' },
+    reset: true,
+    delay: 200,
+    config: { duration: 500 }
+  });
+
   return (
     <div className="ElectionResultsPage">
       <h2>Election Results for {electionName} elections</h2>
@@ -55,11 +64,11 @@ function ElectionResultsPage() {
             </div>
           )}
           {pastElectionResults.winner && !pastElectionResults.isTie && (
-            <div className="winner-tile">
-              <p className="winner-label">&#127881; Winner &#127881;</p>
+            <animated.div style={winnerAnimation} className="winner-tile">
+              <p className="winner-label">&#127881; Congratulations, Winner! &#127881;</p>
               <p className="winner-name">{pastElectionResults.winner.name}</p>
               <p className="votes">Votes: {Number(pastElectionResults.winner.votes)}</p>
-            </div>
+            </animated.div>
           )}
         </div>
       </div>

@@ -37,7 +37,7 @@ function AdminDash() {
     <div className="AdminDash">
       <h2 style={{ fontSize: '38px', fontWeight: 'bold', textAlign: 'center' }}>Admin Dashboard</h2>
       <Link to="/add-new-election">
-        <button style={{ marginBottom: '20px' }}>Add New Election</button>
+        <button style={{ marginBottom: '20px' , height: '50px'}}>Add New Election</button>
       </Link>
 
       {/* Horizontal line */}

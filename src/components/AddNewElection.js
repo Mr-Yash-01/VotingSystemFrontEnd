@@ -116,22 +116,22 @@ function AddNewElection() {
         <h2>Add New Election</h2>
         <form onSubmit={handleSubmit}>
           <label>
-            Election Name:
+            Election Name  
             <input type="text" value={electionName} onChange={(e) => setElectionName(e.target.value)} />
           </label>
           <label>
-            Start Time:
+            Start Time
             <input type="datetime-local" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
           </label>
           <label>
-            End Time:
+            End Time
             <input type="datetime-local" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
           </label>
           <div className="candidate-input">
-            <label>Candidate Name:</label>
+            <label>Candidate</label>
             <input type="text" value={candidateName} onChange={handleInputChange} />
             <button type="button" className='addCandidate' onClick={handleAddCandidateClick}>
-              {editingIndex !== null ? 'Update Candidate' : 'Add Candidate'}
+              {editingIndex !== null ? 'Update ' : 'Add '}
             </button>
           </div>
           <button type="submit">Submit</button>

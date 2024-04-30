@@ -73,7 +73,7 @@ function VoterDash() {
       <hr style={{ marginTop: '20px', marginBottom: '20px', borderTop: '2px solid #ccc' }} />
 
       <div style={{ marginTop: '20px' }}>
-        <h3 style={{ fontSize: '26px', fontWeight: 'bold', marginLeft: '27px' }}>Running Elections :</h3>
+        <h3 style={{ fontSize: '26px', fontWeight: 'bold', marginLeft: '27px' }}>Running Elections</h3>
         <div className="elections-grid">
           {filteredElections.filter(([key, value]) => new Date(value.startTime) < new Date() && new Date(value.endTime) > new Date()).length === 0 && <p className="no-election-message">No running elections</p>}
           {filteredElections.map(([key, value]) => (
@@ -92,7 +92,7 @@ function VoterDash() {
       <hr style={{ marginTop: '20px', marginBottom: '20px', borderTop: '2px solid #ccc' }} />
 
       <div style={{ marginTop: '20px' }}>
-        <h3 style={{ fontSize: '26px', fontWeight: 'bold',  marginLeft: '27px' }}>Upcoming Elections :</h3>
+        <h3 style={{ fontSize: '26px', fontWeight: 'bold',  marginLeft: '27px' }}>Upcoming Elections</h3>
         <div className="elections-grid">
           {filteredElections.filter(([key, value]) => new Date(value.startTime) > new Date()).length === 0 && <p className="no-election-message">No upcoming elections</p>}
           {filteredElections.map(([key, value]) => (
@@ -111,7 +111,7 @@ function VoterDash() {
       <hr style={{ marginTop: '20px', marginBottom: '20px', borderTop: '2px solid #ccc' }} />
 
       <div style={{ marginTop: '20px' }}>
-        <h3 style={{ fontSize: '26px', fontWeight: 'bold', marginLeft: '27px' }}>Ended Elections :</h3>
+        <h3 style={{ fontSize: '26px', fontWeight: 'bold', marginLeft: '27px' }}>Ended Elections</h3>
         <div className="elections-grid">
           {filteredElections.filter(([key, value]) => new Date(value.endTime) < new Date()).length === 0 && <p className="no-election-message">No ended elections</p>}
           {filteredElections.map(([key, value]) => (

@@ -11,12 +11,53 @@ body {
   background-color: #F0F4F9;
    /* Apply background color to the entire page */
 }
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Make sure it's above other content */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.6s ease-in-out, visibility 2.6s ease-in-out;}
+
+.modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative; /* Necessary for the click-outside functionality */
+}
+
+
 .Apps{
   overflow: hidden;
+  height: 100vh;
 }
+.title-container {
+  position: absolute;  /* Absolutely position this container */
+  top: 3px;  /* Distance from the top of the parent container */
+  left: 0;  /* Align to the left edge */
+  right: 0;  /* Align to the right edge */
+  z-index: 10;  /* Ensures it's on top if needed */
+}
+
 
 /* Style the login container */
 .login-container {
+  margin-top: 55px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -137,6 +178,8 @@ body {
 }
 
 
+
+/* ************************ ADMIN DASSSSSSSSSSSSSSSSSSSSSSSSSSHHHHHHHHHH ************************** */
 /* Apply styles to the entire page */
 /* Apply styles to the entire page */
 .AdminDash {
@@ -225,8 +268,19 @@ body {
   flex-direction: column;
   align-items: center;
   margin-top: 50px;
+  width: calc(100% - 20px);
 }
 
+.AddNewElectionBox label {
+  display: block; /* Make labels block-level elements */
+  margin-bottom: 10px; /* Add some space between labels */
+  font-size: 18px; /* Increase font size */
+}
+
+/* Style the Election Name label specifically */
+.AddNewElectionBox label:first-of-type {
+  margin-bottom: 20px; /* Increase margin-bottom for Election Name label */
+}
 /* Style the form inside the AddNewElectionBox */
 .AddNewElectionBox form {
   width: 400px;
@@ -244,8 +298,12 @@ body {
   padding: 10px;
   border-radius: 20px;
   border: 1px solid #ccc;
+  margin-left: 10px;
+  width: calc(100% - 20px);
 }
-
+.candidate-input input {
+  margin-left: 0; /* Remove margin from the left side */
+}
 /* Style the buttons */
 .AddNewElectionBox button {
   padding: 10px 20px;
@@ -295,6 +353,10 @@ body {
 }
 
 /* Style the buttons in the candidate tile */
+.candidate-buttons {
+  display: flex;
+  justify-content: center; /* Align buttons horizontally at the center */
+}
 .candidate-buttons button {
   margin-top: 10px;
   margin-right: 10px;
@@ -400,6 +462,7 @@ h3 {
 
 
 
+/* Ensure ElectionResultsPage and its children align properly */
 .ElectionResultsPage {
   display: flex;
   flex-direction: column;
@@ -408,12 +471,12 @@ h3 {
 }
 
 .square-box {
-  width: 50%; /* Adjust the size as needed */
-  height: 50%; /* Same as width to create a square */
+  width: 100%; /* Use 100% of the ElectionResultsPage width */
+  max-width: 600px; /* Set a max width for larger screens */
   background-color: #f0f0f0;
   padding: 20px;
-  border: solid #000000;
-  border-radius: 50px;
+  border: 1px solid #000000;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -421,43 +484,36 @@ h3 {
 }
 
 .results-container {
+  width: 100%; /* Make sure it uses full width of its parent */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.results-container .candidate-tile {
-  background-color: #ffffff;
+.results-container .candidate-tile, .tie-tile, .winner-tile {
+  width: 100%; /* All tiles take full width of the results-container */
   padding: 10px;
-  width: 500%;
   margin-bottom: 10px;
   border-radius: 5px;
 }
 
 .tie-tile {
-  width: 500%;
   font-size: 20px;
   font-weight: 600;
   background-color: #d1d7e1;
   color: rgb(0, 0, 0);
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
   transition: transform 0.2s ease-in-out;
 }
-.tie-tile:hover{
+
+.tie-tile:hover {
   transform: scale(1.09);
 }
 
 .winner-tile {
-  width: 500%;
   font-size: 20px;
   font-weight: 600;
   background-color: #4CAF50;
   color: rgb(255, 255, 255);
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
 }
 
 .winner-tile:not(:last-child) {
