@@ -110,7 +110,7 @@ function AddNewElection() {
         navigate('/admin-dashboard');
       })
       .catch((error) => {
-        console.error('Error uploading election data:', error);
+        // console.error('Error uploading election data:', error);
       });
   };
 
