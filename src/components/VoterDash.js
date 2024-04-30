@@ -5,7 +5,7 @@ import { app } from '../firebase';
 
 
 // Import Font Awesome CSS file
-import '@fortawesome/fontawesome-free/css/all.min.css';
+// import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function VoterDash() {
   const [upcomingElections, setUpcomingElections] = useState([]);
@@ -108,6 +108,9 @@ function VoterDash() {
       </div>
 
       {/* Horizontal line above ended elections */}
+      <hr style={{ marginTop: '20px', marginBottom: '20px', borderTop: '2px solid #ccc' }} />
+
+      <div style={{ marginTop: '20px' }}></div>
       <hr style={{ marginTop: '20px', marginBottom: '20px', borderTop: '2px solid #ccc' }} />
 
       <div style={{ marginTop: '20px' }}>

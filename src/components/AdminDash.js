@@ -4,7 +4,7 @@ import { getDatabase, ref, onValue } from 'firebase/database';
 import { app } from '../firebase';
 
 // Import Font Awesome CSS file
-import '@fortawesome/fontawesome-free/css/all.min.css';
+// import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function AdminDash() {
   const [elections, setElections] = useState([]);
