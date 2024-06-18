@@ -108,7 +108,7 @@ function VoterDash() {
       </div>
 
       {/* Horizontal line above ended elections */}
-      <hr style={{ marginTop: '20px', marginBottom: '20px', borderTop: '2px solid #ccc' }} />
+      {/* <hr style={{ marginTop: '20px', marginBottom: '20px', borderTop: '2px solid #ccc' }} /> */}
 
       <div style={{ marginTop: '20px' }}></div>
       <hr style={{ marginTop: '20px', marginBottom: '20px', borderTop: '2px solid #ccc' }} />

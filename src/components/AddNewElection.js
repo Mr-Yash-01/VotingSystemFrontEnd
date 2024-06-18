@@ -76,14 +76,14 @@ function AddNewElection() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsValidForm(true);
-
+  
     const db = getDatabase(app);
     const electionRef = ref(db, 'Elections');
-
+  
     const currentDate = new Date();
     const startTimeDate = new Date(startTime);
     const endTimeDate = new Date(endTime);
-
+  
     if (
       startTimeDate <= currentDate ||
       endTimeDate <= startTimeDate ||
@@ -93,7 +93,7 @@ function AddNewElection() {
       setIsValidForm(false);
       return;
     }
-
+  
     const electionData = {
       name: electionName,
       startTime: startTime,
@@ -103,16 +103,29 @@ function AddNewElection() {
         safe: '',
       },
     };
-
-    await sendContract.addElectionWithCandidates(electionName, electionData.candidates);
-    push(electionRef, electionData)
-      .then(() => {
-        navigate('/admin-dashboard');
-      })
-      .catch((error) => {
-        // console.error('Error uploading election data:', error);
-      });
+  
+    try {
+      // Send transaction to MetaMask for user confirmation
+      await sendContract.addElectionWithCandidates(electionName, electionData.candidates);
+  
+      // If transaction is successful, update database
+      await push(electionRef, electionData);
+      
+      // Navigate to admin dashboard upon successful deployment
+      navigate('/admin-dashboard');
+    } catch (error) {
+      if (error.code === 4001) {
+        // User rejected the transaction in MetaMask
+        console.log('Transaction rejected by user.');
+        // You can choose to do nothing here or handle it as needed
+      } else {
+        // Other errors (e.g., network issues, contract errors)
+        console.error('Error during transaction:', error);
+        // Handle other errors accordingly
+      }
+    }
   };
+  
 
   return (
     <div className="AddNewElectionBox">

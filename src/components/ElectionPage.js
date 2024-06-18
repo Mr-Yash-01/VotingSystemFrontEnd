@@ -51,21 +51,30 @@ function ElectionPage() {
     try {
       const sendData = await sendContract.vote(electionName, selectedCandidate);
       await sendContract.waitForDeployment();
-      // Get a reference to the candidate's vote count
+  
       const db = getDatabase(app);
       const electionVoterRef = ref(db, `Elections/${electionId}/voted`);
-      // Run a transaction to safely update the vote count
+  
       await update(electionVoterRef, {
-        [voterId]: sendData.hash // Assuming you want to set it to the transaction hash
+        [voterId]: sendData.hash
       });
-      console.log('Uploaded');
+  
+      console.log('Vote successfully recorded');
       setShowConfirmation(false);
-      // Close the confirmation popup after voting
+      navigate(`/voter-dashboard/${voterId}`);
     } catch (error) {
-      console.error('Error handling vote:', error);
+      if (error.code === 4001) {
+        // User rejected the transaction in MetaMask
+        console.log('Transaction rejected by user.');
+        // Handle rejection gracefully (e.g., show a message to the user)
+      } else {
+        // Other errors (e.g., network issues, contract errors)
+        console.error('Error handling vote:', error);
+        // Handle other errors accordingly
+      }
     }
-    navigate(`/voter-dashboard/${voterId}`);
   };
+  
 
   return (
     <div className="ElectionPage">
